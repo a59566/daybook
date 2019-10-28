@@ -1,0 +1,9 @@
+zh-TW:
+  models:
+    consumption: 消費
+  attributes:
+    consumption:
+      id: ID
+      detail: 明細
+      amount: 金額
+      date: 日期
