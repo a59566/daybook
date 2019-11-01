@@ -1,0 +1,17 @@
+h1 標籤一覽
+
+= link_to '新增標籤', new_tag_path, class: 'btn btn-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      th= Tag.human_attribute_name(:name)
+      th
+  tbody
+    - @tags.each do |tag|
+      tr
+        td= tag.name
+        td
+          = link_to '編輯', edit_tag_path(tag), class: 'btn btn-primary mr-3'
+          = link_to '刪除', tag, method: :delete,data: {confirm: "是否要刪除[#{tag.name}]"}, class: 'btn btn-danger'
