@@ -1,0 +1,15 @@
+= form_with model: consumption, local: true do |form|
+  .form-group
+    = form.label :detail
+    = form.text_field :detail, class: 'form-control'
+  .form-group
+    = form.label :amount
+    = form.number_field :amount, class: 'form-control'
+  .form-group
+    = form.label :date
+    = form.date_field :date, value: Date.today, class: 'form-control'
+  .form-group
+    = form.label :tag_id, Tag.model_name.human
+    br
+    = form.collection_select :tag_id, Tag.all, :id, :name
+  = form.submit nil, class: 'btn btn-primary'

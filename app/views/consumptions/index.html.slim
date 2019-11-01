@@ -1,0 +1,24 @@
+h1 消費一覽
+
+= link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
+= link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      th= Consumption.human_attribute_name(:date)
+      th= Consumption.human_attribute_name(:detail)
+      th= Consumption.human_attribute_name(:amount)
+      th= Tag.model_name.human
+      th
+  tbody
+    - @consumptions.each do |consumption|
+      tr
+        td= consumption.date
+        td= consumption.detail
+        td= consumption.amount
+        td= @tags.find(consumption.tag_id).name
+        td
+          = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-primary mr-3'
+          = link_to '刪除', consumption, method: :delete,data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-danger'

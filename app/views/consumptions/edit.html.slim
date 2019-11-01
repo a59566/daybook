@@ -1,0 +1,6 @@
+h1 編輯消費
+
+.nav.justify-content-end
+  = link_to '總覽', consumptions_path, class: 'nav-link'
+
+= render partial: 'form', locals: {consumption: @consumption}
