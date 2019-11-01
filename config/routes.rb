@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :consumptions
-  resources :tags, expect: :show
+  root 'consumptions#index'
+  resources :consumptions, except: :show
+  resources :tags, except: :show
 end
