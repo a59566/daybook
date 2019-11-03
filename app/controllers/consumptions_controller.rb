@@ -1,38 +1,49 @@
 class ConsumptionsController < ApplicationController
+  before_action :set_consumption, only: [:edit, :update, :destroy]
+
   def index
-    @consumptions = Consumption.all
+    @consumptions = Consumption.all.order(id: :desc)
     @tags = Tag.all
   end
 
   def new
     @consumption = Consumption.new
+    @consumption.date = Date.today
   end
 
   def edit
-    @consumption = Consumption.find(params[:id])
+
   end
 
   def create
-    consumption = Consumption.new(consumption_params)
-    consumption.save!
-    redirect_to consumptions_url, notice: '新增成功'
+    @consumption = Consumption.new(consumption_params)
+    if @consumption.save
+      redirect_to consumptions_url, notice: '新增成功'
+    else
+      render :new
+    end
   end
 
   def update
-    consumption = Consumption.find(params[:id])
-    consumption.update!(consumption_params)
-    redirect_to consumptions_url, notice: '更新成功'
+    if @consumption.update(consumption_params)
+      redirect_to consumptions_url, notice: '更新成功'
+    else
+      render :edit
+    end
   end
 
   def destroy
-    consumption = Consumption.find(params[:id])
-    consumption.destroy
+    @consumption.destroy
     redirect_to consumptions_url, notice: '刪除成功'
   end
 
   private
 
-  def consumption_params
-    params.require(:consumption).permit(:detail, :amount, :date, :tag_id)
-  end
+    def consumption_params
+      params.require(:consumption).permit(:detail, :amount, :date, :tag_id)
+    end
+
+    def set_consumption
+      @consumption = Consumption.find(params[:id])
+    end
 end

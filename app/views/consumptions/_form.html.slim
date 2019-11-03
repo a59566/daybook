@@ -1,3 +1,8 @@
+- if consumption.errors.present?
+  ul.list-unstyled
+    - consumption.errors.full_messages.each do |message|
+      li.alert.alert-danger= message
+
 = form_with model: consumption, local: true do |form|
   .form-group
     = form.label :detail
@@ -7,7 +12,7 @@
     = form.number_field :amount, class: 'form-control'
   .form-group
     = form.label :date
-    = form.date_field :date, value: Date.today, class: 'form-control'
+    = form.date_field :date, class: 'form-control'
   .form-group
     = form.label :tag_id, Tag.model_name.human
     br

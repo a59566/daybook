@@ -10,23 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_190446) do
+ActiveRecord::Schema.define(version: 2019_11_02_184127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "consumptions", force: :cascade do |t|
-    t.string "detail"
-    t.integer "amount"
-    t.date "date"
+    t.string "detail", null: false
+    t.integer "amount", null: false
+    t.date "date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "tag_id"
+    t.bigint "tag_id", null: false
     t.index ["tag_id"], name: "index_consumptions_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
