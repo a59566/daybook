@@ -2,8 +2,7 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @consumptions = Consumption.all.order(id: :desc)
-    @tags = Tag.all
+    @consumptions = Consumption.includes(:tag).all.order(id: :desc)
   end
 
   def new

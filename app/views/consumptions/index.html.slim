@@ -18,7 +18,7 @@ table.table.table-hover
         td= consumption.date
         td= consumption.detail
         td= consumption.amount
-        td= @tags.find(consumption.tag_id).name
+        td= consumption.tag.name
         td
           = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-primary mr-3'
           = link_to '刪除', consumption, method: :delete,data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-danger'
