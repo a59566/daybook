@@ -2,7 +2,7 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @consumptions = Consumption.includes(:tag).order(id: :desc).page(params[:page]).per(5)
+    @consumptions = Consumption.includes(:tag).order(date: :desc).page(params[:page]).per(5)
   end
 
   def new
