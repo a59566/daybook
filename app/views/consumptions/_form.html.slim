@@ -15,6 +15,5 @@
     = form.date_field :date, class: 'form-control'
   .form-group
     = form.label :tag_id, Tag.model_name.human
-    br
-    = form.collection_select :tag_id, Tag.all.order(:display_order), :id, :name
+    = form.collection_select :tag_id, Tag.all.order(:display_order), :id, :name, {prompt: true}, {class: 'form-control'}
   = form.submit nil, class: 'btn btn-primary'
