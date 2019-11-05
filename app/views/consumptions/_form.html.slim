@@ -16,5 +16,5 @@
   .form-group
     = form.label :tag_id, Tag.model_name.human
     br
-    = form.collection_select :tag_id, Tag.all, :id, :name
+    = form.collection_select :tag_id, Tag.all.order(:display_order), :id, :name
   = form.submit nil, class: 'btn btn-primary'
