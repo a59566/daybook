@@ -3,6 +3,10 @@ class ConsumptionsController < ApplicationController
 
   def index
     @consumptions = Consumption.includes(:tag).order(date: :desc).page(params[:page]).per(5)
+
+    @amount_by_tag = Consumption.joins(:tag).where(:date => Date.today.at_beginning_of_month..\
+                     Date.today.at_end_of_month).group(:name, :display_order).\
+                     order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
   end
 
   def new

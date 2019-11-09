@@ -1,6 +1,9 @@
 h1 消費一覽
 
 .mb-3
+  = pie_chart @amount_by_tag
+
+.mb-3
   = link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
   = link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
 
