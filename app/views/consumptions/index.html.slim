@@ -1,30 +1,51 @@
-h1 消費一覽
+.row.mt-3
+  .col.border-right
+    h3.mb-3 近五日消費
+    table.table.table-hover style="table-layout: fixed; width: 100%;"
+      thead.thead-default
+        tr
+          th 日期
+          th 金額
+      tbody
+        -@recent_5_days_consumptions.each do |recent_consumption|
+          tr
+            td= recent_consumption.date
+            td= recent_consumption.sum_amount
+  .col
+    h3.mb-3 消費分析
+    = pie_chart @amount_by_tag
 
-.mb-3
-  = pie_chart @amount_by_tag
+.row.mb-3
+  .col
+    .mb-0.border-top
 
-.mb-3
-  = link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
-  = link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
+.row.mb-3
+  .col
+    = link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
+    = link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
+    
+.row
+  .col
+    table.table.table-hover style="table-layout: fixed; width: 100%;"
+      thead.thead-default
+        tr
+          th= Consumption.human_attribute_name(:date)
+          th= Consumption.human_attribute_name(:detail)
+          th= Consumption.human_attribute_name(:amount)
+          th= Tag.model_name.human
+          th
+      tbody
+        - @consumptions.each do |consumption|
+          tr
+            td= consumption.date
+            td= consumption.detail
+            td= consumption.amount
+            td= consumption.tag.name
+            td
+              = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-primary mr-3'
+              = link_to '刪除', consumption, method: :delete, data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-danger'
 
-.mb-3
-  = paginate @consumptions
-  = page_entries_info @consumptions
-table.table.table-hover
-  thead.thead-default
-    tr
-      th= Consumption.human_attribute_name(:date)
-      th= Consumption.human_attribute_name(:detail)
-      th= Consumption.human_attribute_name(:amount)
-      th= Tag.model_name.human
-      th
-  tbody
-    - @consumptions.each do |consumption|
-      tr
-        td= consumption.date
-        td= consumption.detail
-        td= consumption.amount
-        td= consumption.tag.name
-        td
-          = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-primary mr-3'
-          = link_to '刪除', consumption, method: :delete,data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-danger'
+.row
+  .col.mb-3.d-flex.justify-content-end= page_entries_info @consumptions
+.row
+  .col.d-flex.justify-content-end= paginate @consumptions

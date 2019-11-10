@@ -7,6 +7,9 @@ class ConsumptionsController < ApplicationController
     @amount_by_tag = Consumption.joins(:tag).where(:date => Date.today.at_beginning_of_month..\
                      Date.today.at_end_of_month).group(:name, :display_order).\
                      order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
+
+    @recent_5_days_consumptions = Consumption.where(:date => (Date.today-5)..(Date.today-1)).\
+                                 group(:date).order(date: :desc).select(:date, 'SUM(amount) as sum_amount')
   end
 
   def new
