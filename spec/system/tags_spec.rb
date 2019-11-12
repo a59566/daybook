@@ -43,7 +43,7 @@ RSpec.describe Tag, type: :system do
 
   describe '編輯標籤' do
     before do
-      FactoryBot.create(:tag)
+      FactoryBot.create(:tag, name: 'tag_1')
     end
 
     it 'change tag name from tag_1 to tag' do
@@ -58,7 +58,7 @@ RSpec.describe Tag, type: :system do
 
   describe '刪除標籤' do
     before do
-      FactoryBot.create(:tag)
+      FactoryBot.create(:tag, name: 'tag_1')
     end
 
     it 'tag_1 be deleted' do
