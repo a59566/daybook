@@ -1,7 +1,7 @@
 .row.mt-3
   .col.border-right
     h3.mb-3 近五日消費
-    table.table.table-hover style="table-layout: fixed; width: 100%;"
+    table.table.table-hover id='recent_5_days_consumptions' style='table-layout: fixed; width: 100%;'
       thead.thead-default
         tr
           th 日期
@@ -26,7 +26,7 @@
     
 .row
   .col
-    table.table.table-hover style="table-layout: fixed; width: 100%;"
+    table.table.table-hover id='recent_5_consumptions' style='table-layout: fixed; width: 100%;'
       thead.thead-default
         tr
           th= Consumption.human_attribute_name(:date)
