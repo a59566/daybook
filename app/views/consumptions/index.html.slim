@@ -13,7 +13,11 @@
             td= recent_consumption.sum_amount
   .col
     h3.mb-3 消費分析
-    = pie_chart @amount_by_tag
+    .mb-3
+      |本月目前消費:&nbsp;
+      = @this_month_amount
+    .mb-3
+      = pie_chart @amount_by_tag
 
 .row.mb-3
   .col

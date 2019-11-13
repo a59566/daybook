@@ -2,14 +2,17 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @consumptions = Consumption.includes(:tag).order(date: :desc).page(params[:page]).per(5)
+    @recent_5_days_consumptions = Consumption.where(:date => (Date.today-5)..(Date.today-1)).\
+                                    group(:date).order(date: :desc).select(:date, 'SUM(amount) as sum_amount')
+
+    @this_month_amount = Consumption.where(:date => Date.today.at_beginning_of_month..\
+                               Date.today.at_end_of_month).sum(:amount)
 
     @amount_by_tag = Consumption.joins(:tag).where(:date => Date.today.at_beginning_of_month..\
-                     Date.today.at_end_of_month).group(:name, :display_order).\
-                     order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
+                       Date.today.at_end_of_month).group(:name, :display_order).\
+                       order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
 
-    @recent_5_days_consumptions = Consumption.where(:date => (Date.today-5)..(Date.today-1)).\
-                                 group(:date).order(date: :desc).select(:date, 'SUM(amount) as sum_amount')
+    @consumptions = Consumption.includes(:tag).order(date: :desc).page(params[:page]).per(5)
   end
 
   def new
