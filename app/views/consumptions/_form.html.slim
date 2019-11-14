@@ -1,0 +1,19 @@
+- if consumption.errors.present?
+  ul.list-unstyled
+    - consumption.errors.full_messages.each do |message|
+      li.alert.alert-danger= message
+
+= form_with model: consumption, local: true do |form|
+  .form-group
+    = form.label :detail
+    = form.text_field :detail, class: 'form-control'
+  .form-group
+    = form.label :amount
+    = form.number_field :amount, class: 'form-control'
+  .form-group
+    = form.label :date
+    = form.date_field :date, class: 'form-control'
+  .form-group
+    = form.label :tag_id, Tag.model_name.human
+    = form.collection_select :tag_id, Tag.all.order(:display_order), :id, :name, {prompt: true}, {class: 'form-control'}
+  = form.submit nil, class: 'btn btn-primary'

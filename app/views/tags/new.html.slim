@@ -1,0 +1,6 @@
+h1 新增標籤
+
+.nav.justify-content-end
+  = link_to '標籤一覽', tags_path, class: 'nav-link'
+
+= render partial: 'form', locals: {tag: @tag}
