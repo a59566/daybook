@@ -27,6 +27,17 @@ RSpec.describe Consumption, type: :system do
       end
     end
 
+    context '本月目前消費' do
+      let(:this_month_amount) { Consumption.find_by_sql("
+                                  SELECT SUM(amount)
+                                  FROM consumptions
+                                  WHERE date BETWEEN '#{Date.today.at_beginning_of_month}' AND
+                                    '#{Date.today.at_end_of_month}'") }
+      it 'has this month amount' do
+        expect(page).to have_content this_month_amount.first.sum
+      end
+    end
+
     context '最新五筆消費' do
       let(:recent_5_consumptions) {Consumption.includes(:tag).find_by_sql("
         SELECT *
