@@ -12,7 +12,7 @@ class ConsumptionsController < ApplicationController
                        Date.today.at_end_of_month).group(:name, :display_order).\
                        order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
 
-    @consumptions = Consumption.includes(:tag).order(date: :desc).page(params[:page]).per(5)
+    @consumptions = Consumption.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(5)
   end
 
   def new
