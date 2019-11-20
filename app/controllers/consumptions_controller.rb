@@ -2,17 +2,15 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @recent_5_days_consumptions = Consumption.where(:date => (Date.today-5)..(Date.today-1)).\
+    @recent_5_days_consumptions = current_user.consumptions.where(:date => (Date.today-5)..(Date.today-1)).\
                                     group(:date).order(date: :desc).select(:date, 'SUM(amount) as sum_amount')
 
-    @this_month_amount = Consumption.where(:date => Date.today.at_beginning_of_month..\
-                               Date.today.at_end_of_month).sum(:amount)
+    @this_month_amount = current_user.consumptions.this_month.sum(:amount)
 
-    @amount_by_tag = Consumption.joins(:tag).where(:date => Date.today.at_beginning_of_month..\
-                       Date.today.at_end_of_month).group(:name, :display_order).\
+    @amount_by_tag = current_user.consumptions.joins(:tag).this_month.group(:name, :display_order).\
                        order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
 
-    @consumptions = Consumption.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(5)
+    @consumptions = current_user.consumptions.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(5)
   end
 
   def new
@@ -25,7 +23,7 @@ class ConsumptionsController < ApplicationController
   end
 
   def create
-    @consumption = Consumption.new(consumption_params)
+    @consumption = current_user.consumptions.new(consumption_params)
     if @consumption.save
       redirect_to consumptions_url, notice: '新增成功'
     else
@@ -53,6 +51,6 @@ class ConsumptionsController < ApplicationController
     end
 
     def set_consumption
-      @consumption = Consumption.find(params[:id])
+      @consumption = current_user.consumptions.find(params[:id])
     end
 end
