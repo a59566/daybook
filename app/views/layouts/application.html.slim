@@ -9,7 +9,13 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .app-title.navbar.navbar-expand-md.navbar-light.bg-light
-      = link_to 'Daybook', root_path, class: 'navbar-brand'
+      div style='width:50%;'
+        = link_to 'Daybook', root_path, class: 'navbar-brand'
+      div style='width:50%;'
+        -if user_signed_in?
+          ul.d-flex.justify-content-end.list-inline.mb-0
+            li.list-inline-item= current_user.email
+            li.list-inline-item= link_to '登出', destroy_user_session_path, method: :delete
     .container
       - if flash.notice.present?
         .alert.alert-success= flash.notice
