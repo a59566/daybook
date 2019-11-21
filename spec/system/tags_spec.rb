@@ -1,22 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe Tag, type: :system do
+  let!(:user_a) { FactoryBot.create(:user) }
+  let!(:user_b) { FactoryBot.create(:user) }
+
+  before do
+    visit new_user_session_url
+    fill_in 'user_email', with: login_user.email
+    fill_in 'user_password', with: login_user.password
+    click_on '登入'
+  end
+
   describe '標籤一覽' do
-    before do
-      10.times do
-        FactoryBot.create(:tag)
+    let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
+
+    context 'when login with user_a' do
+      let(:login_user) { user_a }
+
+      it 'has user_a_tag' do
+        visit tags_url
+        expect(page).to have_content "#{user_a_tag.name}"
       end
     end
 
-    it 'has tag_1 ~ tag_10' do
-      visit tags_url
-      10.times do |i|
-        expect(page).to have_content "tag_#{i + 1}"
+    context 'when login with user_b' do
+      let(:login_user) { user_b }
+
+      it 'has no user_a_tag' do
+        visit tags_url
+        expect(page).to have_no_content "#{user_a_tag.name}"
       end
     end
   end
 
   describe '新增標籤' do
+    let(:login_user) { user_a }
+
     before do
       visit tags_url
       click_on '新增標籤'
@@ -42,32 +61,30 @@ RSpec.describe Tag, type: :system do
   end
 
   describe '編輯標籤' do
-    before do
-      FactoryBot.create(:tag, name: 'tag_1')
-    end
+    let(:login_user) { user_a }
+    let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
 
-    it 'change tag name from tag_1 to tag' do
+    it 'change user_a_tag name to "tag"' do
       visit tags_url
       click_on '編輯'
       fill_in '名稱', with: 'tag'
       click_on '更新標籤'
 
-      expect(page).to have_selector '.alert-success', text: '[tag]標籤更新成功'
+      expect(page).to have_selector '.alert-success', text: "[#{user_a_tag.reload.name}]標籤更新成功"
     end
   end
 
   describe '刪除標籤' do
-    before do
-      FactoryBot.create(:tag, name: 'tag_1')
-    end
+    let(:login_user) { user_a }
+    let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
 
-    it 'tag_1 be deleted' do
+    it 'user_a_tag be deleted' do
       visit tags_url
       click_on '刪除'
       alert = page.driver.browser.switch_to.alert
       alert.accept
 
-      expect(page).to have_selector '.alert-success', text: '[tag_1]標籤刪除成功'
+      expect(page).to have_selector '.alert-success', text: "[#{user_a_tag.name}]標籤刪除成功"
     end
   end
 end
