@@ -5,6 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :timeoutable,
          :session_limitable
 
-  has_many :consumptions
-  has_many :tags
+  has_many :consumptions, dependent: :delete_all
+  has_many :tags, dependent: :delete_all
 end
