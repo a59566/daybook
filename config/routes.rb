@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root 'consumptions#index'
+  root 'guest#new'
   resources :consumptions, except: :show
   resources :tags, except: :show
+
+  devise_for :users
+  post '/users/sign_in/guest', to: 'guest#new'
 end
