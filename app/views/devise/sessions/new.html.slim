@@ -14,6 +14,7 @@ h1
         = resource.class.human_attribute_name('remember_me')
   .form-group
     = f.submit  t('.sign_in'), class: 'btn btn-primary'
-
-  = link_to 'guest',users_sign_in_guest_path,method: :post, class: 'btn btn-primary'
 = render 'devise/shared/links'
+.form-group.border-top
+  .mt-1.mb-3 或者以guest身分登入
+  = link_to 'guest',users_sign_in_guest_path,method: :post, class: 'btn btn-success'

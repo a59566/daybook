@@ -2,11 +2,17 @@ class GuestController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new]
 
   def new
-    guest_user = create_guest_user
+    if current_user == nil
+      guest_user = create_guest_user
 
-    create_template_data(guest_user)
+      create_template_data(guest_user)
 
-    sign_in_and_redirect(guest_user, scope: :user)
+      sign_in(guest_user, scope: :user)
+
+      redirect_to consumptions_url, notice: '歡迎以guest身分登入, 以下是展示用的隨機資料'
+    else
+      redirect_to consumptions_url
+    end
   end
 
   private
