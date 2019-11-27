@@ -9,12 +9,6 @@ class GuestController < ApplicationController
     sign_in_and_redirect(guest_user, scope: :user)
   end
 
-  def destroy
-    guest_users = User.where(guest: true)
-    guest_users.each(&:destroy)
-    redirect_to(root_path)
-  end
-
   private
     def create_guest_user
       email = Faker::Internet.email

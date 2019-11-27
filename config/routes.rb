@@ -6,6 +6,4 @@ Rails.application.routes.draw do
 
   devise_for :users
   post '/users/sign_in/guest', to: 'guest#new'
-  get '/guest/destroy', to: 'guest#destroy'
-
 end
