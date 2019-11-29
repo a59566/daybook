@@ -37,9 +37,9 @@
     = search_form_for @q, class: 'ml-3' do |form|
       .form-group.row
         .col-sm-2.col-form-label= form.label :date_btw, Consumption.human_attribute_name(:date)
-        .col-sm-4=form.date_field :date_gteq, include_blank: true, class: 'form-control'
+        .col-sm-4= form.date_field :date_gteq, include_blank: true, class: 'form-control'
         .col-sm-auto ~
-        .col-sm-4=form.date_field :date_lteq, include_blank: true, class: 'form-control'
+        .col-sm-4= form.date_field :date_lteq, include_blank: true, class: 'form-control'
       .form-group.row
         .col-sm-2.col-form-label= form.label :detail_cont, Consumption.human_attribute_name(:detail)
         .col-sm-4= form.text_field :detail_cont, class: 'form-control'
@@ -48,7 +48,9 @@
         .col-sm-4= form.collection_select :tag_id_eq, current_user.tags.order(:display_order),
                      :id, :name, {prompt: true}, {class: 'form-control' }
       .form-group.row
-        .col= form.submit class: 'btn btn-outline-primary'
+        .col-sm
+          = form.submit class: 'btn btn-outline-primary'
+          = link_to '清除搜尋', request.path, class: 'btn btn-outline-danger ml-3'
 
 .row
   .col
