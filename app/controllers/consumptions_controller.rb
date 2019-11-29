@@ -11,7 +11,7 @@ class ConsumptionsController < ApplicationController
                        order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
 
     @q = current_user.consumptions.ransack(params[:q])
-    @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(5)
+    @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(10)
   end
 
   def new
