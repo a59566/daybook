@@ -27,7 +27,31 @@
   .col
     = link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
     = link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
-    
+    = link_to '搜尋功能', '#searchform', role: :button,
+        data: {toggle: :collapse},
+        aria: {controls: :'searchform', expanded: false},
+        class: 'btn btn-secondary ml-3'
+
+.row.mb-3.collapse id='searchform'
+  .col
+    = search_form_for @q, class: 'ml-3' do |form|
+      .form-group.row
+        .col-sm-2.col-form-label= form.label :date_btw, Consumption.human_attribute_name(:date)
+        .col-sm-4= form.date_field :date_gteq, include_blank: true, class: 'form-control'
+        .col-sm-auto ~
+        .col-sm-4= form.date_field :date_lteq, include_blank: true, class: 'form-control'
+      .form-group.row
+        .col-sm-2.col-form-label= form.label :detail_cont, Consumption.human_attribute_name(:detail)
+        .col-sm-4= form.text_field :detail_cont, class: 'form-control'
+      .form-group.row
+        .col-sm-2.col-form-label= form.label :tag_id_eq, Tag.model_name.human
+        .col-sm-4= form.collection_select :tag_id_eq, current_user.tags.order(:display_order),
+                     :id, :name, {prompt: true}, {class: 'form-control' }
+      .form-group.row
+        .col-sm
+          = form.submit class: 'btn btn-outline-primary'
+          = link_to '清除搜尋', request.path, class: 'btn btn-outline-danger ml-3'
+
 .row
   .col
     table.table.table-hover id='recent_5_consumptions' style='table-layout: fixed; width: 100%;'
