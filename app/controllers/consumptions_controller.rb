@@ -10,7 +10,8 @@ class ConsumptionsController < ApplicationController
     @amount_by_tag = current_user.consumptions.joins(:tag).this_month.group(:name, :display_order).\
                        order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
 
-    @consumptions = current_user.consumptions.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(5)
+    @q = current_user.consumptions.ransack(params[:q])
+    @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(10)
   end
 
   def new
