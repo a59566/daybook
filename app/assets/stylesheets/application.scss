@@ -13,16 +13,5 @@
  *= require_tree .
  *= require_self
  */
-$grid-breakpoints: (
-        xs: 0,
-        sm: 576px,
-        md: 768px,
-        lg: 992px
-) !default;
 
-$container-max-widths: (
-        sm: 540px,
-        md: 720px,
-        lg: 960px
-) !default;
 @import "bootstrap";
