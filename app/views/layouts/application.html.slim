@@ -17,8 +17,12 @@ html
             li.list-inline-item= current_user.guest ? 'guest' : current_user.email
             li.list-inline-item= link_to '登出', destroy_user_session_path, method: :delete
     .container
-      - if flash.notice.present?
-        .alert.alert-success= flash.notice
-      - if flash.alert.present?
-        .alert.alert-danger= flash.alert
-      = yield
+      .row
+        .col
+        .col-10
+          - if flash.notice.present?
+            .alert.alert-success= flash.notice
+          - if flash.alert.present?
+            .alert.alert-danger= flash.alert
+          = yield
+        .col
