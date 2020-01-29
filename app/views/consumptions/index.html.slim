@@ -7,10 +7,8 @@
           th 日期
           th 金額
       tbody
-        -@recent_5_days_consumptions.each do |recent_consumption|
-          tr
-            td= recent_consumption.date
-            td= recent_consumption.sum_amount
+        =column_chart @recent_5_days_consumptions, stacked: true
+
   .col
     h3.mb-1 消費分析
     .mb-2
