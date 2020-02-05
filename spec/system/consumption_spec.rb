@@ -23,23 +23,6 @@ RSpec.describe Consumption, type: :system do
     context 'when login with user_a' do
       let(:login_user) { user_a }
 
-      context '近五日消費' do
-        let(:recent_5_days_consumptions) {Consumption.find_by_sql("
-          SELECT date, SUM(amount)
-          FROM consumptions
-          WHERE date BETWEEN '#{Date.today - 5}' AND '#{Date.today - 1}'
-          GROUP BY date
-          ORDER BY date DESC")}
-        let(:table_row) { all('#recent_5_days_consumptions tbody tr') }
-
-        it 'have recent 5 days consumptions' do
-          recent_5_days_consumptions.each_with_index  do |recent_consumption, i|
-            expect(table_row[i]).to have_content "#{recent_consumption.date}"
-            expect(table_row[i]).to have_content "#{recent_consumption.sum}"
-          end
-        end
-      end
-
       context '本月目前消費' do
         let(:this_month_amount) { Consumption.find_by_sql("
           SELECT SUM(amount)

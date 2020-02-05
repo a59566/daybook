@@ -2,7 +2,7 @@
   .col.border-right style='max-width: 445px;'
     h3.mb-3 近五日消費
     .mb-3
-      = column_chart @recent_5_days_consumptions, stacked: true, width: '415px', messages: {empty: "近五日沒有消費"}
+      = column_chart @recent_consumptions, stacked: true, width: '415px', messages: {empty: "近五日沒有消費"}
 
   .col style='max-width: 445px;'
     h3.mb-1 消費分析

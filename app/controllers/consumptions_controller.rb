@@ -2,9 +2,10 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @recent_5_days_consumptions = build_chart_data(current_user.consumptions.joins(:tag).includes(:tag)\
-                                                   .where(:date => (Date.today-5)..(Date.today-1))\
-                                                   .order(:date, :display_order))
+    recent_days = 5
+    @recent_consumptions = build_recent_consumption_chart_data(current_user.tags.joins(:consumptions).includes(:consumptions)\
+                                                   .merge(Consumption.recent(recent_days))\
+                                                   .order(:display_order, :date).select(:name, :date, :amount), recent_days)
 
     @this_month_amount = current_user.consumptions.this_month.sum(:amount)
 
@@ -56,16 +57,33 @@ class ConsumptionsController < ApplicationController
       @consumption = current_user.consumptions.find(params[:id])
     end
 
-    def build_chart_data(sources)
+    def build_recent_consumption_chart_data(tags, recent_days)
       result = []
-      sources.group_by{|x| x.tag.name}.each do |tag_name, consumptions|
+      tags.each_with_index do |tag, index|
         result_element = {}
-        result_element[:name] = tag_name
+        result_element[:name] = tag.name
 
         data = []
-        consumptions.each do |consumption|
-          data.push([consumption.date.strftime('%m-%d'), consumption.amount])
+
+        # add empty date amount in first tag to keep date order in chart
+        if index == 0
+          recent_range = Date.today - recent_days .. Date.today - 1
+          recent_range.each do |date|
+            consumptions = tag.consumptions.select{ |consumption| consumption.date == date }
+            if consumptions.count != 0
+              amount = consumptions.inject(0) { |sum, n| sum + n.amount }
+              data.push([date.strftime('%m-%d'), amount ])
+            else
+              data.push([date.strftime('%m-%d'), 0 ])
+            end
+          end
+        else
+          tag.consumptions.group_by(&:date).each do |date, consumptions|
+            amount = consumptions.inject(0) { |sum, n| sum + n.amount }
+            data.push([date.strftime('%m-%d'), amount ])
+          end
         end
+
         result_element[:data] = data
         result.push result_element
       end
