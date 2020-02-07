@@ -3,14 +3,18 @@ class ConsumptionsController < ApplicationController
 
   def index
     recent_days = 5
-    @recent_consumptions = build_recent_consumption_chart_data(current_user.tags.joins(:consumptions).includes(:consumptions)\
-                                                   .merge(Consumption.recent(recent_days))\
-                                                   .order(:display_order, :date).select(:name, :date, :amount), recent_days)
+    @recent_amount_by_tag = build_recent_amount_by_tag(
+      current_user.tags.joins(:consumptions).includes(:consumptions)\
+                  .merge(Consumption.recent(recent_days)).order(:display_order, :date)\
+                  .select(:name, :date, :amount),
+      recent_days
+    )
 
-    @this_month_amount = current_user.consumptions.this_month.sum(:amount)
+    @this_month_amount_by_tag = current_user.tags.joins(:consumptions).merge(Consumption.this_month)\
+                                            .group(:name, :display_order).order(display_order: :asc)\
+                                            .pluck(:name, 'SUM(consumptions.amount) AS amount_sum')
 
-    @amount_by_tag = current_user.consumptions.joins(:tag).this_month.group(:name, :display_order).\
-                       order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
+    @this_month_amount = @this_month_amount_by_tag.inject(0) { |sum, tag_and_amount| sum + tag_and_amount[1] }
 
     @q = current_user.consumptions.ransack(params[:q])
     @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(10)
@@ -57,7 +61,7 @@ class ConsumptionsController < ApplicationController
       @consumption = current_user.consumptions.find(params[:id])
     end
 
-    def build_recent_consumption_chart_data(tags, recent_days)
+    def build_recent_amount_by_tag(tags, recent_days)
       result = []
       tags.each_with_index do |tag, index|
         result_element = {}
@@ -71,7 +75,7 @@ class ConsumptionsController < ApplicationController
           recent_range.each do |date|
             consumptions = tag.consumptions.select{ |consumption| consumption.date == date }
             if consumptions.count != 0
-              amount = consumptions.inject(0) { |sum, n| sum + n.amount }
+              amount = consumptions.inject(0) { |sum, consumption| sum + consumption.amount }
               data.push([date.strftime('%m-%d'), amount ])
             else
               data.push([date.strftime('%m-%d'), 0 ])
@@ -79,7 +83,7 @@ class ConsumptionsController < ApplicationController
           end
         else
           tag.consumptions.group_by(&:date).each do |date, consumptions|
-            amount = consumptions.inject(0) { |sum, n| sum + n.amount }
+            amount = consumptions.inject(0) { |sum, consumption| sum + consumption.amount }
             data.push([date.strftime('%m-%d'), amount ])
           end
         end
