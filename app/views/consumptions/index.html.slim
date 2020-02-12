@@ -63,8 +63,11 @@
             td= consumption.amount
             td= consumption.tag.name
             td
-              = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-outline-primary mr-3'
-              = link_to '刪除', consumption, method: :delete, data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-outline-danger'
+              = link_to edit_consumption_path(consumption), class: 'mr-3' do
+                = icon 'far', 'edit'
+              = link_to consumption, method: :delete,
+                      data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"} do
+                = icon 'far', 'trash-alt'
 
 .row
   .col.mb-3.d-flex.justify-content-end= page_entries_info @consumptions
