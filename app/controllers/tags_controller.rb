@@ -36,7 +36,7 @@ class TagsController < ApplicationController
 
   def destroy
     @tag.destroy
-    redirect_to tags_url, notice: "[#{@tag.name}]標籤刪除成功"
+    head :no_content
   end
 
   private

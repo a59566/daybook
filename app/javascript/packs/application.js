@@ -18,3 +18,14 @@ require("../src/application.scss")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+
+// delete table row when destroy action succeed
+document.addEventListener('turbolinks:load', function () {
+    document.querySelectorAll('.delete').forEach(function (a) {
+        a.addEventListener('ajax:success', function () {
+            var tr = a.parentNode.parentNode;
+            tr.style.display = 'none';
+        })
+    })
+});
