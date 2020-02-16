@@ -34,7 +34,10 @@ class ConsumptionsController < ApplicationController
     if @consumption.save
       redirect_to consumptions_url, notice: '新增成功'
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render json: get_formatted_error_message(@consumption), status: :unprocessable_entity }
+      end
     end
   end
 
@@ -48,7 +51,7 @@ class ConsumptionsController < ApplicationController
 
   def destroy
     @consumption.destroy
-    redirect_to consumptions_url, notice: '刪除成功'
+    head :no_content
   end
 
   private

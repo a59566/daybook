@@ -9,4 +9,10 @@ class Consumption < ApplicationRecord
   validates :amount, presence: true, numericality: true
   validates :date, presence: true
   validates :tag_id, presence: true
+  validate do |consumption|
+    # check if tag_id is belongs to user
+    unless consumption.user.tags.find_by_id(consumption.tag_id)
+      errors.add(:tag_id, :invalid)
+    end
+  end
 end

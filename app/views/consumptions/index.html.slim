@@ -65,7 +65,7 @@
             td
               = link_to edit_consumption_path(consumption), class: 'mr-3' do
                 = icon 'far', 'edit'
-              = link_to consumption, method: :delete,
+              = link_to consumption, method: :delete, remote: true, class: 'delete',
                       data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"} do
                 = icon 'far', 'trash-alt'
 

@@ -21,7 +21,10 @@ class TagsController < ApplicationController
     if @tag.save
       redirect_to tags_url, notice: "[#{@tag.name}]標籤新增成功"
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render json: get_formatted_error_message(@tag), status: :unprocessable_entity }
+      end
     end
   end
 
