@@ -8,4 +8,14 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     new_user_session_path
   end
+
+  def get_formatted_error_message(model)
+    result = {}
+    model_name = model.class.name.downcase
+    model.errors.messages.each do |key, value|
+      result["#{model_name}_#{key}"] = value
+    end
+
+    result
+  end
 end

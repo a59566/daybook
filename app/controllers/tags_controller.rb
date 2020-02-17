@@ -21,7 +21,10 @@ class TagsController < ApplicationController
     if @tag.save
       redirect_to tags_url, notice: "[#{@tag.name}]標籤新增成功"
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render json: get_formatted_error_message(@tag), status: :unprocessable_entity }
+      end
     end
   end
 
@@ -36,7 +39,7 @@ class TagsController < ApplicationController
 
   def destroy
     @tag.destroy
-    redirect_to tags_url, notice: "[#{@tag.name}]標籤刪除成功"
+    head :no_content
   end
 
   private

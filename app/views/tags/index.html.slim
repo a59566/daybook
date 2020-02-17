@@ -15,5 +15,8 @@ h1 標籤一覽
           tr
             td= tag.name
             td
-              = link_to '編輯', edit_tag_path(tag), class: 'btn btn-outline-primary mr-3'
-              = link_to '刪除', tag, method: :delete,data: {confirm: "是否要刪除[#{tag.name}]"}, class: 'btn btn-outline-danger'
+              = link_to edit_tag_path(tag), class: 'mr-3' do
+                = icon 'far', 'edit'
+              = link_to tag, method: :delete, remote: true, class: 'delete',
+                      data: {confirm: "是否要刪除[#{tag.name}]"} do
+                = icon 'far', 'trash-alt'
