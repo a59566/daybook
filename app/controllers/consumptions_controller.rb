@@ -45,7 +45,10 @@ class ConsumptionsController < ApplicationController
     if @consumption.update(consumption_params)
       redirect_to consumptions_url, notice: '更新成功'
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit}
+        format.js { render json: get_formatted_error_message(@consumption), status: :unprocessable_entity }
+      end
     end
   end
 
