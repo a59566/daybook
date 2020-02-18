@@ -26,7 +26,8 @@ class ConsumptionsController < ApplicationController
   end
 
   def edit
-
+    # if edit consumption from search result, redirect to search result after update successfully
+    session[:search_result_referer] = (request.referer&.include?('/consumptions?q')) ? request.referer : nil
   end
 
   def create
@@ -43,7 +44,7 @@ class ConsumptionsController < ApplicationController
 
   def update
     if @consumption.update(consumption_params)
-      redirect_to consumptions_url, notice: '更新成功'
+      redirect_to (session[:search_result_referer] || consumptions_url), notice: '更新成功'
     else
       respond_to do |format|
         format.html { render :edit}
