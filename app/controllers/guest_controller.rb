@@ -9,10 +9,10 @@ class GuestController < ApplicationController
 
       sign_in(guest_user, scope: :user)
 
-      redirect_to consumptions_url, notice: '歡迎以guest身分登入, 以下是展示用的隨機資料'
-    else
-      redirect_to consumptions_url
+      flash[:show_guest_notice] = true
     end
+
+    redirect_to consumptions_url
   end
 
   private
@@ -25,12 +25,11 @@ class GuestController < ApplicationController
 
     def create_template_data(guest_user)
       # create tags
-      template_tag_names = %w(正餐 飲料 零食 生活 其他)
+      template_tag_names = %w(正餐 飲料 零食 生活)
       template_tags = {}
 
-      5.times do |i|
-        tag_name = template_tag_names[i]
-        template_tags[tag_name] = guest_user.tags.new(name: tag_name, display_order: i)
+      template_tag_names.each_with_index do |tag_name, index|
+        template_tags[tag_name] = guest_user.tags.new(name: tag_name, display_order: index)
       end
 
       guest_user.tags.import!(template_tags.values)
@@ -40,7 +39,6 @@ class GuestController < ApplicationController
       drinks = { '烏龍綠'=> 30, '多多綠'=> 40, '珍奶'=> 65}
       snacks = { '銅鑼燒'=> 79, '蘇打餅'=> 65,  '巧克力'=> 35, '可樂果'=> 25, '卡迪那薯條'=> 68}
       lives = { '衛生紙'=> 110, '沐浴乳'=> 179, '洗髮乳'=> 135, '洗面乳'=> 99 }
-      others = { '耳機'=> 3250, '遊戲'=> 1540 }
 
       # new consumptions by tag with probability
       15.times do |i|
@@ -49,7 +47,6 @@ class GuestController < ApplicationController
         new_template_consumption(guest_user, template_tags['飲料'], drinks, consumption_date, 60)
         new_template_consumption(guest_user, template_tags['零食'], snacks, consumption_date, 40)
         new_template_consumption(guest_user, template_tags['生活'], lives, consumption_date, 20)
-        new_template_consumption(guest_user, template_tags['其他'], others, consumption_date, 5)
       end
 
       guest_user.consumptions.import!(guest_user.consumptions.to_a)

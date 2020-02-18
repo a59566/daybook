@@ -28,6 +28,9 @@ dataConfirmModal.setDefaults({
 });
 
 document.addEventListener('turbolinks:load', function () {
+    // guest welcome message
+    $('#guest_notice')?.modal('show');
+
     // delete table row when destroy action succeed
     document.querySelectorAll('.delete').forEach(function (a) {
         a.addEventListener('ajax:success', function () {
@@ -36,7 +39,7 @@ document.addEventListener('turbolinks:load', function () {
         })
     });
 
-
+    // add validation error info for remote form
     document.querySelectorAll('form[data-remote="true"]').forEach(function (form) {
         form.addEventListener('ajax:error', function (event) {
             //clear error
