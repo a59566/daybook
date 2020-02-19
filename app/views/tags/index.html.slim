@@ -10,7 +10,7 @@ h1 標籤一覽
         tr
           th= Tag.human_attribute_name(:name)
           th
-      tbody
+      tbody id='tags'
         - @tags.each do |tag|
           tr
             td= tag.name
