@@ -1,4 +1,6 @@
 = form_with model: consumption, remote: true do |form|
+  - if request.referer&.include?('/consumptions?q')
+    input type='hidden' name='search_result_referer' value="#{Base64.strict_encode64(request.referer)}"
   .form-group
     = form.label :detail
     = form.text_field :detail, class: 'form-control'
