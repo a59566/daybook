@@ -26,13 +26,12 @@ class ConsumptionsController < ApplicationController
   end
 
   def edit
-
   end
 
   def create
     @consumption = current_user.consumptions.new(consumption_params)
     if @consumption.save
-      redirect_to consumptions_url, notice: '新增成功'
+      redirect_to (search_result_url || consumptions_url), notice: '新增成功'
     else
       respond_to do |format|
         format.html { render :new }
@@ -43,9 +42,12 @@ class ConsumptionsController < ApplicationController
 
   def update
     if @consumption.update(consumption_params)
-      redirect_to consumptions_url, notice: '更新成功'
+      redirect_to (search_result_url || consumptions_url), notice: '更新成功'
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit}
+        format.js { render json: get_formatted_error_message(@consumption), status: :unprocessable_entity }
+      end
     end
   end
 
@@ -96,5 +98,9 @@ class ConsumptionsController < ApplicationController
       end
 
       result
+    end
+
+    def search_result_url
+      params[:search_result_referer] ? Base64.strict_decode64(params[:search_result_referer]) : nil
     end
 end

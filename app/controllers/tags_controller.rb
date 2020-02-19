@@ -32,9 +32,11 @@ class TagsController < ApplicationController
     if @tag.update(tag_params)
       redirect_to tags_url, notice: "[#{@tag.name}]標籤更新成功"
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.js { render json: get_formatted_error_message(@tag), status: :unprocessable_entity }
+      end
     end
-
   end
 
   def destroy

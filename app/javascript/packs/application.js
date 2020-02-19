@@ -10,6 +10,7 @@ require("channels");
 require("chartkick");
 require("chart.js");
 require("bootstrap");
+require("data-confirm-modal");
 require("../src/application.scss");
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -19,9 +20,18 @@ require("../src/application.scss");
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+dataConfirmModal.setDefaults({
+    title: '確認視窗',
+    commit: '確認',
+    cancel: '取消',
+    cancelClass: 'btn-secondary'
+});
 
-// delete table row when destroy action succeed
 document.addEventListener('turbolinks:load', function () {
+    // guest welcome message
+    $('#guest_notice')?.modal('show');
+
+    // delete table row when destroy action succeed
     document.querySelectorAll('.delete').forEach(function (a) {
         a.addEventListener('ajax:success', function () {
             const tr = a.parentNode.parentNode;
@@ -29,6 +39,7 @@ document.addEventListener('turbolinks:load', function () {
         })
     });
 
+    // add validation error info for remote form
     document.querySelectorAll('form[data-remote="true"]').forEach(function (form) {
         form.addEventListener('ajax:error', function (event) {
             //clear error

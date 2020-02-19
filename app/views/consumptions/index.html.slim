@@ -1,3 +1,6 @@
+- if flash[:show_guest_notice]
+  = render partial: 'guest/notice_modal'
+
 .row.mt-3
   .col.border-right style='max-width: 445px;'
     h3.mb-3 近五日消費
