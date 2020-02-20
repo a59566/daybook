@@ -29,7 +29,7 @@ class GuestController < ApplicationController
       template_tags = {}
 
       template_tag_names.each_with_index do |tag_name, index|
-        template_tags[tag_name] = guest_user.tags.new(name: tag_name, display_order: index)
+        template_tags[tag_name] = guest_user.tags.new(name: tag_name, display_order: index * 1000)
       end
 
       guest_user.tags.import!(template_tags.values)

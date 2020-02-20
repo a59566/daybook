@@ -1,8 +1,13 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:edit, :update, :destroy]
+  before_action :set_tag, only: [:sort, :edit, :update, :destroy]
 
   def index
-    @tags = current_user.tags.order(:display_order)
+    @tags = current_user.tags.rank(:display_order)
+  end
+
+  def sort
+    @tag.update(tag_params.permit(:display_order_position))
+    head :no_content
   end
 
   def show
@@ -17,7 +22,7 @@ class TagsController < ApplicationController
 
   def create
     @tag = current_user.tags.new(tag_params)
-    @tag.display_order = current_user.tags.maximum(:display_order).to_i + 1
+    @tag.display_order_position = :last
     if @tag.save
       redirect_to tags_url, notice: "[#{@tag.name}]標籤新增成功"
     else
@@ -47,7 +52,7 @@ class TagsController < ApplicationController
   private
 
     def tag_params
-      params.require(:tag).permit(:name)
+      params.require(:tag).permit(:name, :display_order_position)
     end
 
     def set_tag
