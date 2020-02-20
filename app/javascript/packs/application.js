@@ -12,6 +12,7 @@ require("chart.js");
 require("bootstrap");
 require("data-confirm-modal");
 require("../src/application.scss");
+import Sortable from 'sortablejs';
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -62,6 +63,31 @@ document.addEventListener('turbolinks:load', function () {
             })
         })
     });
+
+    //sortable tags
+    const tags = document.getElementById('tags');
+    if(tags) {
+        Sortable.create(tags, {
+            onChoose: function (event) {
+                event.item.classList.remove('grab');
+                event.item.classList.add('grabbing');
+            },
+            onUnchoose: function(event) {
+                event.item.classList.remove('grabbing');
+                event.item.classList.add('grab');
+            },
+            onUpdate: function(event) {
+                let params = {};
+                params[event.item.dataset.modelName] =
+                    {display_order_position: event.newIndex};
+                $.ajax({
+                    type: 'PATCH',
+                    url: event.item.dataset.updateUrl,
+                    data: params
+                });
+            }
+        });
+    }
 });
 
 
