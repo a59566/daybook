@@ -1,8 +1,13 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:edit, :update, :destroy]
+  before_action :set_tag, only: [:sort, :edit, :update, :destroy]
 
   def index
-    @tags = current_user.tags.order(:display_order)
+    @tags = current_user.tags.rank(:display_order)
+  end
+
+  def sort
+    @tag.update(tag_params.permit(:display_order_position))
+    head :no_content
   end
 
   def show
@@ -17,11 +22,14 @@ class TagsController < ApplicationController
 
   def create
     @tag = current_user.tags.new(tag_params)
-    @tag.display_order = current_user.tags.maximum(:display_order).to_i + 1
+    @tag.display_order_position = :last
     if @tag.save
       redirect_to tags_url, notice: "[#{@tag.name}]標籤新增成功"
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render json: get_formatted_error_message(@tag), status: :unprocessable_entity }
+      end
     end
   end
 
@@ -29,20 +37,22 @@ class TagsController < ApplicationController
     if @tag.update(tag_params)
       redirect_to tags_url, notice: "[#{@tag.name}]標籤更新成功"
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.js { render json: get_formatted_error_message(@tag), status: :unprocessable_entity }
+      end
     end
-
   end
 
   def destroy
     @tag.destroy
-    redirect_to tags_url, notice: "[#{@tag.name}]標籤刪除成功"
+    head :no_content
   end
 
   private
 
     def tag_params
-      params.require(:tag).permit(:name)
+      params.require(:tag).permit(:name, :display_order_position)
     end
 
     def set_tag

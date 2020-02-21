@@ -1,23 +1,19 @@
+- if flash[:show_guest_notice]
+  = render partial: 'guest/notice_modal'
+
 .row.mt-3
-  .col.border-right
+  .col.border-right style='max-width: 445px;'
     h3.mb-3 近五日消費
-    table.table.table-hover id='recent_5_days_consumptions' style='table-layout: fixed; width: 100%;'
-      thead.thead-default
-        tr
-          th 日期
-          th 金額
-      tbody
-        -@recent_5_days_consumptions.each do |recent_consumption|
-          tr
-            td= recent_consumption.date
-            td= recent_consumption.sum_amount
-  .col
+    .mb-3
+      = column_chart @recent_amount_by_tag, stacked: true, width: '415px', messages: {empty: "近五日沒有消費"}
+
+  .col style='max-width: 445px;'
     h3.mb-1 消費分析
     .mb-2
       |本月目前消費:&nbsp;
       = @this_month_amount
     .mb-3
-      = pie_chart @amount_by_tag
+      = pie_chart @this_month_amount_by_tag, messages: {empty: "本月尚未有消費"}
 
 .row.mb-3
   .col
@@ -70,8 +66,11 @@
             td= consumption.amount
             td= consumption.tag.name
             td
-              = link_to '編輯', edit_consumption_path(consumption), class: 'btn btn-outline-primary mr-3'
-              = link_to '刪除', consumption, method: :delete, data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"}, class: 'btn btn-outline-danger'
+              = link_to edit_consumption_path(consumption), class: 'mr-3' do
+                = icon 'far', 'edit'
+              = link_to consumption, method: :delete,
+                      data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"} do
+                = icon 'far', 'trash-alt'
 
 .row
   .col.mb-3.d-flex.justify-content-end= page_entries_info @consumptions

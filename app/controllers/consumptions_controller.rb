@@ -2,13 +2,20 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    @recent_5_days_consumptions = current_user.consumptions.where(:date => (Date.today-5)..(Date.today-1)).\
-                                    group(:date).order(date: :desc).select(:date, 'SUM(amount) as sum_amount')
+    recent_days = (Consumption.where(date: Date.today).count == 0)?
+                      Date.today - 5..Date.today - 1 : Date.today - 4..Date.today
+    @recent_amount_by_tag = build_recent_amount_by_tag(
+      current_user.tags.joins(:consumptions).includes(:consumptions)\
+                  .where(consumptions: {date: recent_days}).order(:display_order, :date)\
+                  .select(:name, :date, :amount),
+      recent_days
+    )
 
-    @this_month_amount = current_user.consumptions.this_month.sum(:amount)
+    @this_month_amount_by_tag = current_user.tags.joins(:consumptions).merge(Consumption.this_month)\
+                                            .group(:name, :display_order).order(display_order: :asc)\
+                                            .pluck(:name, 'SUM(consumptions.amount) AS amount_sum')
 
-    @amount_by_tag = current_user.consumptions.joins(:tag).this_month.group(:name, :display_order).\
-                       order(display_order: :asc).pluck(:name, 'SUM(consumptions.amount)')
+    @this_month_amount = @this_month_amount_by_tag.inject(0) { |sum, tag_and_amount| sum + tag_and_amount[1] }
 
     @q = current_user.consumptions.ransack(params[:q])
     @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(10)
@@ -20,29 +27,34 @@ class ConsumptionsController < ApplicationController
   end
 
   def edit
-
   end
 
   def create
     @consumption = current_user.consumptions.new(consumption_params)
     if @consumption.save
-      redirect_to consumptions_url, notice: '新增成功'
+      redirect_to (search_result_url || consumptions_url), notice: '新增成功'
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render json: get_formatted_error_message(@consumption), status: :unprocessable_entity }
+      end
     end
   end
 
   def update
     if @consumption.update(consumption_params)
-      redirect_to consumptions_url, notice: '更新成功'
+      redirect_to (search_result_url || consumptions_url), notice: '更新成功'
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit}
+        format.js { render json: get_formatted_error_message(@consumption), status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @consumption.destroy
-    redirect_to consumptions_url, notice: '刪除成功'
+    redirect_to consumptions_path
   end
 
   private
@@ -53,5 +65,42 @@ class ConsumptionsController < ApplicationController
 
     def set_consumption
       @consumption = current_user.consumptions.find(params[:id])
+    end
+
+    def build_recent_amount_by_tag(tags, recent_days)
+      result = []
+      tags.each_with_index do |tag, index|
+        result_element = {}
+        result_element[:name] = tag.name
+
+        data = []
+
+        # add empty date amount in first tag to keep date order in chart
+        if index == 0
+          recent_days.each do |date|
+            consumptions = tag.consumptions.select{ |consumption| consumption.date == date }
+            if consumptions.count != 0
+              amount = consumptions.inject(0) { |sum, consumption| sum + consumption.amount }
+              data.push([date.strftime('%m-%d'), amount ])
+            else
+              data.push([date.strftime('%m-%d'), 0 ])
+            end
+          end
+        else
+          tag.consumptions.group_by(&:date).each do |date, consumptions|
+            amount = consumptions.inject(0) { |sum, consumption| sum + consumption.amount }
+            data.push([date.strftime('%m-%d'), amount ])
+          end
+        end
+
+        result_element[:data] = data
+        result.push result_element
+      end
+
+      result
+    end
+
+    def search_result_url
+      params[:search_result_referer] ? Base64.strict_decode64(params[:search_result_referer]) : nil
     end
 end

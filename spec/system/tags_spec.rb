@@ -19,6 +19,7 @@ RSpec.describe Tag, type: :system do
 
       it 'has user_a_tag' do
         visit tags_url
+
         expect(page).to have_content "#{user_a_tag.name}"
       end
     end
@@ -28,6 +29,7 @@ RSpec.describe Tag, type: :system do
 
       it 'has no user_a_tag' do
         visit tags_url
+
         expect(page).to have_no_content "#{user_a_tag.name}"
       end
     end
@@ -55,7 +57,7 @@ RSpec.describe Tag, type: :system do
       let(:tag_name) { '' }
 
       it 'add tag failed' do
-        expect(page).to have_content '名稱 不能為空白'
+        expect(page).to have_selector '.invalid-feedback', text: '不能為空白'
       end
     end
   end
@@ -66,11 +68,11 @@ RSpec.describe Tag, type: :system do
 
     it 'change user_a_tag name to "tag"' do
       visit tags_url
-      click_on '編輯'
+      find(:css, 'i.far.fa-edit').click
       fill_in '名稱', with: 'tag'
       click_on '更新標籤'
 
-      expect(page).to have_selector '.alert-success', text: "[#{user_a_tag.reload.name}]標籤更新成功"
+      expect(page).to have_selector '.alert-success', text: '[tag]標籤更新成功'
     end
   end
 
@@ -80,11 +82,10 @@ RSpec.describe Tag, type: :system do
 
     it 'user_a_tag be deleted' do
       visit tags_url
-      click_on '刪除'
-      alert = page.driver.browser.switch_to.alert
-      alert.accept
+      click_link class: 'delete'
+      click_button '確認'
 
-      expect(page).to have_selector '.alert-success', text: "[#{user_a_tag.name}]標籤刪除成功"
+      expect(page).to_not have_selector '.delete', text: user_a_tag.name
     end
   end
 end

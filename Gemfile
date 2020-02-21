@@ -58,7 +58,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # my gem
 gem 'slim-rails'
 gem 'html2slim'
-gem 'bootstrap'
 gem 'kaminari'
 gem 'chartkick', '>=3.3.0'
 gem 'devise'
@@ -68,3 +67,5 @@ gem 'faker'
 gem 'devise-security'
 gem 'activerecord-import'
 gem 'ransack'
+gem 'font-awesome-sass'
+gem 'ranked-model'
