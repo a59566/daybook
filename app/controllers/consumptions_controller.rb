@@ -2,10 +2,11 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    recent_days = 5
+    recent_days = (Consumption.where(date: Date.today).count == 0)?
+                      Date.today - 5..Date.today - 1 : Date.today - 4..Date.today
     @recent_amount_by_tag = build_recent_amount_by_tag(
       current_user.tags.joins(:consumptions).includes(:consumptions)\
-                  .merge(Consumption.recent(recent_days)).order(:display_order, :date)\
+                  .where(consumptions: {date: recent_days}).order(:display_order, :date)\
                   .select(:name, :date, :amount),
       recent_days
     )
@@ -53,7 +54,7 @@ class ConsumptionsController < ApplicationController
 
   def destroy
     @consumption.destroy
-    head :no_content
+    redirect_to consumptions_path
   end
 
   private
@@ -76,8 +77,7 @@ class ConsumptionsController < ApplicationController
 
         # add empty date amount in first tag to keep date order in chart
         if index == 0
-          recent_range = Date.today - recent_days .. Date.today - 1
-          recent_range.each do |date|
+          recent_days.each do |date|
             consumptions = tag.consumptions.select{ |consumption| consumption.date == date }
             if consumptions.count != 0
               amount = consumptions.inject(0) { |sum, consumption| sum + consumption.amount }
