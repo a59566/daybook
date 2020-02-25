@@ -130,7 +130,7 @@ RSpec.describe Consumption, type: :system do
 
     it 'consumption_1 be deleted' do
       visit consumptions_url
-      click_link class: 'delete'
+      find(:css, 'i.far.fa-trash-alt').click
       click_button '確認'
 
       expect(page).to_not have_selector '.delete'
