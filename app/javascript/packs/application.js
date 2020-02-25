@@ -34,9 +34,6 @@ document.addEventListener('turbolinks:load', function () {
 
     // http 401 error handle
     document.body.addEventListener('ajax:error', function (event) {
-        const detail = event.detail;
-        const data = detail[0], status = detail[1], xhr = detail[2];
-
         if (event.detail[2].status === 401) {
             dataConfirmModal.confirm({
                 text: event.detail[2].responseText,
