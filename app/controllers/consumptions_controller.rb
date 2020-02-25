@@ -2,7 +2,7 @@ class ConsumptionsController < ApplicationController
   before_action :set_consumption, only: [:edit, :update, :destroy]
 
   def index
-    recent_days = (Consumption.where(date: Date.today).count == 0)?
+    recent_days = (current_user.consumptions.where(date: Date.today).count == 0)?
                       Date.today - 5..Date.today - 1 : Date.today - 4..Date.today
     @recent_amount_by_tag = build_recent_amount_by_tag(
       current_user.tags.joins(:consumptions).includes(:consumptions)\
