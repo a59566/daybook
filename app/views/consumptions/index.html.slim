@@ -2,12 +2,12 @@
   = render partial: 'guest/notice_modal'
 
 .row.mt-3
-  .col.border-right style='max-width: 445px;'
+  .col-lg-6.border-right
     h3.mb-3 近五日消費
     .mb-3
-      = column_chart @recent_amount_by_tag, stacked: true, width: '415px', messages: {empty: "近五日沒有消費"}
+      = column_chart @recent_amount_by_tag, stacked: true, messages: {empty: "近五日沒有消費"}
 
-  .col style='max-width: 445px;'
+  .col-lg-6
     h3.mb-1 消費分析
     .mb-2
       |本月目前消費:&nbsp;
