@@ -1,11 +1,11 @@
-#guest_notice.modal.fade aria-hidden="true" aria-labelledby="guest_notice_label" role="dialog" tabindex="-1"
+#guest_notice.modal.fade aria-hidden="true" aria-labelledby="guest_notice_label" role="dialog" tabindex="-1" data-backdrop="static"
   .modal-dialog role="document"
     .modal-content
       .modal-header
-        h5#guest_notice_label.modal-title Welcome
+        h5#guest_notice_label.modal-title 歡迎
         button.close aria-label="close" data-dismiss="modal" type="button"
           span aria-hidden="true" &times;
       .modal-body
-        | 歡迎以guest身分登入, 以下是展示用的隨機資料
+        | 您正在以訪客身分使用本站, 目前顯示的是展示用隨機資料
       .modal-footer
-        button.btn.btn-secondary data-dismiss="modal" type="button"  關閉
+        button.btn.btn-secondary data-dismiss="modal" type="button" 關閉

@@ -16,5 +16,5 @@ h1
     = f.submit  t('.sign_in'), class: 'btn btn-primary'
 = render 'devise/shared/links'
 .form-group.border-top
-  .mt-1.mb-3 或者以guest身分登入
-  = link_to 'guest',users_sign_in_guest_path,method: :post, class: 'btn btn-success'
+  .mt-1.mb-3 或者以訪客身分試用本站功能
+  = link_to '訪客',users_sign_in_guest_path,method: :post, class: 'btn btn-success'
