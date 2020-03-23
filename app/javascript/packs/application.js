@@ -32,13 +32,20 @@ document.addEventListener('turbolinks:load', function () {
     // guest welcome message
     $('#guest_notice')?.modal('show');
 
-    // http 401 error handle
+    // http error handle
     document.body.addEventListener('ajax:error', function (event) {
-        if (event.detail[2].status === 401) {
+        const status_code = event.detail[2].status
+        if (status_code === 401) {
             dataConfirmModal.confirm({
                 text: event.detail[2].responseText,
                 cancelClass : 'd-none',
                 onConfirm: function() { location.href = '/users/sign_in' }
+            });
+        }
+        else if (status_code === 405) {
+            dataConfirmModal.confirm({
+                text: event.detail[2].responseText,
+                cancelClass : 'd-none',
             });
         }
     });
