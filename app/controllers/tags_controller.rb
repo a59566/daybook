@@ -45,8 +45,13 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    @tag.destroy
-    head :no_content
+    if @tag.destroy
+      head :no_content
+    else
+      respond_to do |format|
+        format.js { render plain: @tag.errors.messages[:base][0], status: :method_not_allowed }
+      end
+    end
   end
 
   private
