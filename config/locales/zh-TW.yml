@@ -17,6 +17,7 @@ zh-TW:
         date: 日期
         tag: 標籤
         tag_id: 標籤
+        consumptions: 消費
       tag:
         id: ID
         name: 名稱

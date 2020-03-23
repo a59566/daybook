@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  has_many :consumptions
+  has_many :consumptions, dependent: :restrict_with_error
   belongs_to :user
 
   include RankedModel
