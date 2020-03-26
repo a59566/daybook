@@ -1,0 +1,17 @@
+language: ruby
+
+services:
+  - postgresql
+
+cache: bundler
+
+before_install:
+  - gem install bundler
+
+before_script:
+  - cp config/database.travis.yml config/database.yml
+
+script:
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rspec spec/system
