@@ -3,10 +3,17 @@ language: ruby
 services:
   - postgresql
 
-cache: bundler
+cache:
+  - bundler
+  - yarn
 
 before_install:
   - gem install bundler
+  - nvm install node
+
+install:
+  - bundle install --jobs=3 --retry=3
+  - yarn install
 
 before_script:
   - cp config/database.travis.yml config/database.yml
