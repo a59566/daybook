@@ -1,0 +1,31 @@
+language: ruby
+
+services:
+  - postgresql
+
+cache:
+  - bundler
+  - yarn
+
+before_install:
+  - gem install bundler
+  - nvm install node
+
+install:
+  - bundle install --jobs=3 --retry=3
+  - yarn install
+
+before_script:
+  - cp config/database.travis.yml config/database.yml
+
+script:
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake webpacker:compile
+  - bundle exec rspec spec/system
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: K1ew8BxrzoS5C7jxyPnlik04Wpt8wqZXWjKlW2fbaEs+3RhFMnPuZkLuuc4xgnT9pgvmFxkOaz7a5yt87ZmpiL5j+1OY2Oc2EagA+kVk5FnVEnz9V8tmq8MkQsabBQ+MYQ6R/WYj6+SwT8V1ZwTVNoVXLaHZ+WVv6dZNxuomRuChbQ4xZ7dacwmRfhmAyiT+EZe6shx78pVGPkI6UPc0UhxsHB3t4gfWTQlg8M4NzhSXRvAki/qOtSX3xY2dniajvBTPhR6/YczLorFjkmse/kUYmXjNVAvUAYvi4IbsQ9ebnZtEh3C+fkLqsMUhXNuDsGmV9CYKdMtDeTUqvtI7bYAm7qc82WgnNazZpShxgPcT2Tvx/JsEjUjAhkZqexqzPdQTCTXnLgSkwxMCw8kryn+/R0qNXfkJn82eglgnwTnRo2G9C2MyotRAslkV++qyzbPNdTLZ2OvS7PBDVJ07B/YLu0YvOXlYYUXThUuHYhUz9Q0mvPrZTYfu1lL3otAiVetbjolwT1838C4Xddk/Tc7TfNOiHKRuXh6R0ABFeWsU9fBEJZRVDfTbcujRpgwiO5hRPKSJ9sHvL0w7lt5UZ6AEDDzpplq8EB9csQ2C5AQRG4nbJwHunpRtd4Dh8yeabIUrOvfaar0LEZWtaeM9oYDDnp0qNr+YtT1GFv3jDs8=
+  app: powerful-garden-42265
