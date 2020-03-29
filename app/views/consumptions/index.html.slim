@@ -3,17 +3,18 @@
 
 .row.mt-3
   .col-lg-6.border-right
-    h3.mb-3 近五日消費
+    h3.mb-3 = t('.recent_consumption')
     .mb-3
-      = column_chart @recent_amount_by_tag, stacked: true, messages: {empty: "近五日沒有消費"}
+      = column_chart @recent_amount_by_tag, stacked: true, messages: {empty: t('.recent_empty_message')}
 
   .col-lg-6
-    h3.mb-1 消費分析
+    h3.mb-1 = t('.consumption_analysis')
     .mb-2
-      |本月目前消費:&nbsp;
+      = t('.this_month_consumption')
+      |:&nbsp;
       = @this_month_amount
     .mb-3
-      = pie_chart @this_month_amount_by_tag, messages: {empty: "本月尚未有消費"}
+      = pie_chart @this_month_amount_by_tag, messages: {empty: t('.this_month_empty_message')}
 
 .row.mb-3
   .col
@@ -21,9 +22,9 @@
 
 .row.mb-3
   .col
-    = link_to '新增消費', new_consumption_path, class: 'btn btn-primary'
-    = link_to '標籤管理', tags_path, class: 'btn btn-info ml-3'
-    = link_to '搜尋功能', '#searchform', role: :button,
+    = link_to t('.new_button'), new_consumption_path, class: 'btn btn-primary'
+    = link_to t('.tag_index_button'), tags_path, class: 'btn btn-info ml-3'
+    = link_to t('.search_future_button'), '#searchform', role: :button,
         data: {toggle: :collapse},
         aria: {controls: :'searchform', expanded: false},
         class: 'btn btn-secondary ml-3'
@@ -46,7 +47,7 @@
       .form-group.row
         .col-sm
           = form.submit class: 'btn btn-outline-primary'
-          = link_to '清除搜尋', request.path, class: 'btn btn-outline-danger ml-3'
+          = link_to t('.search_clear_button'), request.path, class: 'btn btn-outline-danger ml-3'
 
 .row
   .col
@@ -69,7 +70,7 @@
               = link_to edit_consumption_path(consumption), class: 'mr-3' do
                 = icon 'far', 'edit'
               = link_to consumption, method: :delete,
-                      data: {confirm: "是否要刪除[#{consumption.date}-#{consumption.detail}]"} do
+                      data: {confirm: t('.delete_message', date: consumption.date, detail: consumption.detail)} do
                 = icon 'far', 'trash-alt'
 
 .row

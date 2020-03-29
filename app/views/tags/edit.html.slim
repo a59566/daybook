@@ -1,6 +1,6 @@
-h1 編輯標籤
+h1 = t('.title')
 
 .nav.justify-content-end
-  = link_to '標籤一覽', tags_path, class: 'nav-link'
+  = link_to t('.index_button'), tags_path, class: 'nav-link'
 
-= render partial: 'form', locals:  {tag: @tag}
+= render partial: 'form', locals: {tag: @tag}
