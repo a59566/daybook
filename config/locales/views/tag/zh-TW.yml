@@ -1,0 +1,17 @@
+zh-TW:
+  tags:
+    index:
+      title: '標籤一覽'
+      new_button: '新增標籤'
+      sortable_notice: '※ 拖曳標籤調整顯示順序'
+      delete_message: "是否要刪除[%{name}]"
+    new:
+      title: '新增標籤'
+      index_button: '標籤一覽'
+    edit:
+      title: '編輯標籤'
+      index_button: '標籤一覽'
+    create:
+      success_message: "[%{name}]標籤新增成功"
+    update:
+      success_message: "[%{name}]標籤更新成功"

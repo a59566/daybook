@@ -24,7 +24,7 @@ class TagsController < ApplicationController
     @tag = current_user.tags.new(tag_params)
     @tag.display_order_position = :last
     if @tag.save
-      redirect_to tags_url, notice: "[#{@tag.name}]標籤新增成功"
+      redirect_to tags_url, notice: t('.success_message', name: @tag.name)
     else
       respond_to do |format|
         format.html { render :new }
@@ -35,7 +35,7 @@ class TagsController < ApplicationController
 
   def update
     if @tag.update(tag_params)
-      redirect_to tags_url, notice: "[#{@tag.name}]標籤更新成功"
+      redirect_to tags_url, notice: t('.success_message', name: @tag.name)
     else
       respond_to do |format|
         format.html { render :edit }
