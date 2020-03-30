@@ -4,8 +4,9 @@ services:
   - postgresql
 
 cache:
-  - bundler
-  - yarn
+  directories:
+    - vendor/bundle
+    - $HOME/.cache/yarn
 
 before_install:
   - gem install bundler
