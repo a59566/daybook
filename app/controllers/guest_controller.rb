@@ -1,14 +1,12 @@
 class GuestController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new]
+  skip_before_action :sign_in_required, only: [:new]
 
   def new
-    if current_user == nil
+    if !current_user
       guest_user = create_guest_user
-
       create_template_data(guest_user)
 
-      sign_in(guest_user, scope: :user)
-
+      session[:user_id] = guest_user.id
       flash[:show_guest_notice] = true
     end
 
@@ -18,7 +16,7 @@ class GuestController < ApplicationController
   private
     def create_guest_user
       email = Faker::Internet.email
-      password = Devise.friendly_token.first(8)
+      password = Faker::Internet.password
 
       User.create!(email: email, password: password, guest: true)
     end

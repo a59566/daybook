@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     patch 'sort', on: :member
   end
 
-  devise_for :users
-  post '/users/sign_in/guest', to: 'guest#new'
+  get '/users/sign_up', to: 'users#new'
+  post '/users', to: 'users#create'
+
+  get '/sign_in', to: 'sessions#new'
+  post '/sign_in', to: 'sessions#create'
+  delete '/sign_out', to: 'sessions#destroy'
+
+  post '/sign_in/guest', to: 'guest#new'
 end

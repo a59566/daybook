@@ -2,9 +2,6 @@ zh-TW:
   users:
     new:
       title: '註冊'
-      email: '電子信箱'
-      password: '密碼'
-      password_confirmation: '確認密碼'
       sign_up: '註冊'
       sign_in_title: '已經有帳號了?'
       sign_in: '登入'

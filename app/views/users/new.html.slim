@@ -2,13 +2,13 @@ h1 = t('.title')
 
 = form_with model: @user do |form|
   .form-group
-    = form.label :email, t('.email')
-    = form.text_field :email, class: 'form-control'
+    = form.label :email
+    = form.email_field :email, class: 'form-control'
   .form-group
-    = form.label :password, t('.password')
+    = form.label :password
     = form.password_field :password, class: 'form-control'
   .form-group
-    = form.label :password_confirmation, t('.password_confirmation')
+    = form.label :password_confirmation
     = form.password_field :password_confirmation, class: 'form-control'
   = form.submit t('.sign_up'), class: 'btn btn-primary'
 

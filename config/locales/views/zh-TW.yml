@@ -1,0 +1,6 @@
+zh-TW:
+  layouts:
+    application:
+      guest: '訪客'
+      sign_out: '登出'
+  sign_in_required_message: '請先登入'

@@ -2,12 +2,14 @@ zh-TW:
   sessions:
     new:
       title: '登入'
-      email: '電子信箱'
-      password: '密碼'
       sign_in: '登入'
       sign_up_title: '沒有帳號?'
       sign_up: '註冊'
       guest_sign_in_title: '或者以訪客身分試用本站功能'
       guest_sign_in: '訪客'
     create:
+      no_user_error: '沒有此使用者'
+      password_error: '密碼錯誤'
       success_message: '登入成功'
+    destroy:
+      success_message: '登出成功'
