@@ -5,7 +5,7 @@ RSpec.describe Tag, type: :system do
   let!(:user_b) { FactoryBot.create(:user) }
 
   before do
-    visit new_user_session_url
+    visit sign_in_url
     fill_in 'user_email', with: login_user.email
     fill_in 'user_password', with: login_user.password
     click_on '登入'
