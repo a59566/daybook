@@ -3,7 +3,7 @@ h1 = t('.title')
 = form_with scope: :user do |form|
   .form-group
     = form.label :email, User.human_attribute_name(:email)
-    = form.email_field :email, class: 'form-control'
+    = form.text_field :email, class: 'form-control'
   .form-group
     = form.label :password, User.human_attribute_name(:password)
     = form.password_field :password, class: 'form-control'
