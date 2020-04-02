@@ -13,6 +13,10 @@ RSpec.describe Consumption, type: :system do
 
   describe '消費一覽' do
     before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
       10.times do |n|
         tag = FactoryBot.create(:tag, user: user_a)
         FactoryBot.create(:consumption, tag: tag, user: user_a)
@@ -53,6 +57,10 @@ RSpec.describe Consumption, type: :system do
     let!(:tag) { FactoryBot.create(:tag, user: user_a) }
 
     before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
       visit consumptions_url
       click_on '新增消費'
     end
@@ -88,6 +96,10 @@ RSpec.describe Consumption, type: :system do
     let!(:consumption) { FactoryBot.create(:consumption, tag: tag_1, user: user_a) }
 
     before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
       visit consumptions_url
       find(:css, 'i.far.fa-edit').click
     end
@@ -127,6 +139,13 @@ RSpec.describe Consumption, type: :system do
     let(:login_user) { user_a }
     let!(:tag_1) { FactoryBot.create(:tag, user: user_a) }
     let!(:consumption) { FactoryBot.create(:consumption, tag: tag_1, user: user_a) }
+
+    before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
+    end
 
     it 'consumption_1 be deleted' do
       visit consumptions_url

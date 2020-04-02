@@ -14,6 +14,13 @@ RSpec.describe Tag, type: :system do
   describe '標籤一覽' do
     let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
 
+    before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
+    end
+
     context 'when login with user_a' do
       let(:login_user) { user_a }
 
@@ -39,6 +46,10 @@ RSpec.describe Tag, type: :system do
     let(:login_user) { user_a }
 
     before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
       visit tags_url
       click_on '新增標籤'
       fill_in '名稱', with: tag_name
@@ -66,6 +77,13 @@ RSpec.describe Tag, type: :system do
     let(:login_user) { user_a }
     let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
 
+    before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
+    end
+
     it 'change user_a_tag name to "tag"' do
       visit tags_url
       find(:css, 'i.far.fa-edit').click
@@ -79,6 +97,13 @@ RSpec.describe Tag, type: :system do
   describe '刪除標籤' do
     let(:login_user) { user_a }
     let!(:user_a_tag) { FactoryBot.create(:tag, user: user_a) }
+
+    before do
+      visit sign_in_url
+      fill_in 'user_email', with: login_user.email
+      fill_in 'user_password', with: login_user.password
+      click_on '登入'
+    end
 
     it 'user_a_tag be deleted' do
       visit tags_url
