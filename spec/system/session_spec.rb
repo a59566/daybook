@@ -45,5 +45,20 @@ RSpec.describe 'Session', type: :system do
         expect(page).to have_selector '.invalid-feedback', text: '沒有此使用者'
       end
     end
+
+    context 'sign out' do
+      let!(:user) { FactoryBot.create(:user) }
+
+      before do
+        fill_in 'user_email', with: user.email
+        fill_in 'user_password', with: user.password
+        click_on '登入'
+        click_on '登出'
+      end
+
+      it 'sign out success' do
+        expect(page).to have_selector '.alert-success', text: '登出成功'
+      end
+    end
   end
 end
