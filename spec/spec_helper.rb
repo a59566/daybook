@@ -15,10 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.before(:each, type: :system) do
-    driven_by :selenium, using: :headless_chrome do |driver_option|
-      driver_option.add_argument('no-sandbox')
-      driver_option.add_argument('disable-features=VizDisplayCompositor')
-    end
+    driven_by :selenium_headless
   end
 
   # rspec-expectations config goes here. You can use an alternate
