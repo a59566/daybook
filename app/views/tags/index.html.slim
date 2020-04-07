@@ -1,11 +1,11 @@
-h1 標籤一覽
+h1 =t('.title')
 
-= link_to '新增標籤', new_tag_path, class: 'btn btn-primary'
+= link_to t('.new_button'), new_tag_path, class: 'btn btn-primary'
 
 .mb-2
 .row
   .col-6
-    div style='font-size: 15px;' ※ 拖曳標籤調整顯示順序
+    div style='font-size: 15px;' = t('.sortable_notice')
     table.table.table-hover style='table-layout: fixed; width: 100%;'
       thead.thead-default
         tr
@@ -19,5 +19,5 @@ h1 標籤一覽
               = link_to edit_tag_path(tag), class: 'mr-3' do
                 = icon 'far', 'edit'
               = link_to tag, method: :delete, remote: true, class: 'delete',
-                      data: {confirm: "是否要刪除[#{tag.name}]"} do
+                      data: {confirm: t('.delete_message', name: tag.name)} do
                 = icon 'far', 'trash-alt'

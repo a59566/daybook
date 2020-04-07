@@ -1,4 +1,5 @@
 ## Daybook
+[![Build Status](https://travis-ci.org/a59566/daybook.svg?branch=develop)](https://travis-ci.org/a59566/daybook)
   
 * 首頁  
   <img src="https://raw.github.com/wiki/a59566/daybook/images/consumption_index.png" width="720px">

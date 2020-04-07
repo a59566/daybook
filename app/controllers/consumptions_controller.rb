@@ -32,7 +32,7 @@ class ConsumptionsController < ApplicationController
   def create
     @consumption = current_user.consumptions.new(consumption_params)
     if @consumption.save
-      redirect_to (search_result_url || consumptions_url), notice: '新增成功'
+      redirect_to (search_result_url || consumptions_url), notice: t('.success_message')
     else
       respond_to do |format|
         format.html { render :new }
@@ -43,7 +43,7 @@ class ConsumptionsController < ApplicationController
 
   def update
     if @consumption.update(consumption_params)
-      redirect_to (search_result_url || consumptions_url), notice: '更新成功'
+      redirect_to (search_result_url || consumptions_url), notice: t('.success_message')
     else
       respond_to do |format|
         format.html { render :edit}
