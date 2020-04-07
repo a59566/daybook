@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 2020_03_30_142851) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "password_digest"
-    t.boolean "guest", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "guest", default: false
+    t.string "password_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

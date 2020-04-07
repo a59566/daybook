@@ -1,0 +1,13 @@
+-if controller_name == 'users' || controller_name == 'passwords'
+  div= link_to t('.sign_in'), sign_in_path
+
+-if controller_name == 'sessions' || controller_name == 'passwords'
+  div= link_to t('.sign_up'), users_sign_up_path
+
+-if controller_name == 'sessions'
+  div= link_to t('.reset_password'), new_users_passwords_path
+
+-if controller_name == 'sessions' || controller_name == 'users'
+  .border-top.mt-3.mb-1
+  div.mb-3 = t('.guest_sign_in_title')
+  = link_to t('.guest_sign_in'), sign_in_guest_path, method: :post, class: 'btn btn-success'

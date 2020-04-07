@@ -1,0 +1,8 @@
+zh-TW:
+  shared:
+    links:
+      sign_in: '登入'
+      sign_up: '註冊'
+      reset_password: '忘記密碼?'
+      guest_sign_in_title: '或者以訪客身分試用本站功能'
+      guest_sign_in: '訪客'

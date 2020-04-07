@@ -1,0 +1,8 @@
+zh-TW:
+  users:
+    passwords:
+      new:
+        title: '忘記密碼?'
+        submit: '請寄重設密碼的說明信件給我'
+      create:
+        no_user_error: '沒有此使用者'

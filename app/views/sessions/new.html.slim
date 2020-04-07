@@ -7,10 +7,7 @@ h1 = t('.title')
   .form-group
     = form.label :password, User.human_attribute_name(:password)
     = form.password_field :password, class: 'form-control'
-  = form.submit t('.sign_in'), class: 'btn btn-primary'
+  .form-group
+    = form.submit t('.sign_in'), class: 'btn btn-primary'
 
-.border-top.mt-3.mb-1
-div.mb-3 = t('.sign_up_title')
-= link_to t('.sign_up'), '/users/sign_up', class: 'btn btn-info mb-3'
-div.mb-3 = t('.guest_sign_in_title')
-= link_to t('.guest_sign_in'), '/sign_in/guest', method: :post, class: 'btn btn-success'
+= render partial: 'shared/links'

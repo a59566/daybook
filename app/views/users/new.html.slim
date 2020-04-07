@@ -10,8 +10,7 @@ h1 = t('.title')
   .form-group
     = form.label :password_confirmation
     = form.password_field :password_confirmation, class: 'form-control'
-  = form.submit t('.sign_up'), class: 'btn btn-primary'
+  .form-group
+    = form.submit t('.sign_up'), class: 'btn btn-primary'
 
-.border-top.mt-3.mb-1
-div.mb-3 = t('.sign_in_title')
-= link_to t('.sign_in'), '/sign_in', class: 'btn btn-info'
+= render partial: 'shared/links'

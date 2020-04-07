@@ -9,9 +9,13 @@ Rails.application.routes.draw do
   get '/users/sign_up', to: 'users#new'
   post '/users', to: 'users#create'
 
+  namespace :users do
+    resource :passwords, only: [:new, :create, :edit, :update]
+  end
+
   get '/sign_in', to: 'sessions#new'
   post '/sign_in', to: 'sessions#create'
   delete '/sign_out', to: 'sessions#destroy'
 
-  post '/sign_in/guest', to: 'guest#new'
+  post '/sign_in/guest', to: 'guest#new', as: :sign_in_guest
 end
