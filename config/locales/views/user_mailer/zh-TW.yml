@@ -1,6 +1,6 @@
 zh-TW:
   user_mailer:
-    reset_password_email:
+    reset_password:
       action: 更改我的密碼
       greeting: "%{recipient} 您好！"
       instruction: 有人要求更改密碼的連結，您可以利用下面的連結更改密碼。

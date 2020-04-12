@@ -6,3 +6,8 @@ zh-TW:
         submit: '請寄重設密碼的說明信件給我'
       create:
         no_user_error: '沒有此使用者'
+      edit:
+        change_your_password: '更改您的密碼'
+        new_password: '新密碼'
+        confirm_new_password: '確認新密碼'
+        change_my_password: '更改我的密碼'
