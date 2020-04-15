@@ -5,9 +5,11 @@ zh-TW:
         title: '忘記密碼?'
         submit: '請寄重設密碼的說明信件給我'
       create:
-        no_user_error: '沒有此使用者'
+        notice: '您將在幾分鐘後收到一封電子郵件，內有驗證帳號的步驟說明'
       edit:
         change_your_password: '更改您的密碼'
         new_password: '新密碼'
         confirm_new_password: '確認新密碼'
         change_my_password: '更改我的密碼'
+      update:
+        success: '密碼更改成功, 請使用新密碼登入'

@@ -1,8 +1,8 @@
 h1
   = t('.change_your_password')
-= form_with(scope: :user, url: users_passwords_path, method: :put) do |form|
+= form_with scope: :user, url: users_passwords_path, method: :put do |form|
   = form.hidden_field :email, value: params[:email]
-  = form.hidden_field :reset_password_token, value: params[:reset_password_token]
+  = form.hidden_field :reset_password_token, value: params[:reset_password_token], class: 'form-control'
   .form-group
     = form.label :password, t('.new_password')
     = form.password_field :password, autofocus: true, class: 'form-control'

@@ -13,4 +13,5 @@ zh-TW:
         user:
           attributes:
             reset_password_token:
-              timeout: 'token已逾時, 請重新操作'
+              timeout: 'token已逾時, 請重執行密碼重設步驟'
+              error: '發生錯誤, 請重新執行密碼重設步驟'

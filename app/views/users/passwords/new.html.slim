@@ -1,5 +1,5 @@
 h2 = t('.title')
-= form_with scope: :user, url: users_passwords_path do |form|
+= form_with scope: :user, url: users_passwords_path, local: true do |form|
   .form-group
     = form.label :email, User.human_attribute_name(:email)
     = form.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'

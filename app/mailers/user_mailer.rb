@@ -1,9 +1,8 @@
 class UserMailer < ApplicationMailer
-  def reset_password(user, token)
+  def reset_password(user)
     @user = user
-    @token = token
     mail(
-      subject: '',
+      subject: t('.subject'),
       to: @user.email
     )
   end

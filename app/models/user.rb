@@ -7,15 +7,12 @@ class User < ApplicationRecord
   has_secure_password :reset_password_token, validations: false
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validate :reset_password_validate, on: :update
+  validates :password, presence: true, on: :update
+  validate :reset_password_token_validate, on: :update
 
   def reset_password_preparation
-    token = generate_token
-    self.reset_password_token = token
-    self.reset_password_sent_at = DateTime.now
-    save
-
-    token
+    update_attribute(:reset_password_token, generate_token)
+    update_attribute(:reset_password_sent_at, DateTime.now)
   end
 
   private
@@ -25,14 +22,10 @@ class User < ApplicationRecord
   end
 
   def reset_password_token_timeout?
-    self.reset_password_sent_at < DateTime.now - 1.hour
+    reset_password_sent_at < DateTime.now - 1.hour
   end
 
-  def reset_password_validate
-    return if self.reset_password_token.nil?
-
-    if reset_password_token_timeout?
-      self.errors.add(:reset_password_token, :timeout)
-    end
+  def reset_password_token_validate
+    errors.add(:reset_password_token, :timeout) if reset_password_token_timeout?
   end
 end
