@@ -1,9 +1,0 @@
-zh-TW:
-  activerecord:
-    models:
-      tag: 標籤
-    attributes:
-      tag:
-        id: ID
-        name: 名稱
-        consumptions: 消費

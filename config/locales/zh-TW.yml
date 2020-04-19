@@ -1,0 +1,54 @@
+zh-TW:
+  activerecord:
+    models:
+      tag: '標籤'
+      consumption: '消費'
+    attributes:
+      tag:
+        id: 'ID'
+        name: '名稱'
+        consumptions: '消費'
+      consumption:
+        id: 'ID'
+        detail: '明細'
+        amount: '金額'
+        date: '日期'
+        tag: '標籤'
+  tags:
+    index:
+      title: '標籤一覽'
+      new_button: '新增標籤'
+      sortable_notice: '※ 拖曳標籤調整顯示順序'
+      delete_message: "是否要刪除[%{name}]"
+    new:
+      title: '新增標籤'
+      index_button: '標籤一覽'
+    edit:
+      title: '編輯標籤'
+      index_button: '標籤一覽'
+    create:
+      success_message: "[%{name}]標籤新增成功"
+    update:
+      success_message: "[%{name}]標籤更新成功"
+  consumptions:
+    index:
+      recent_consumption: '近五日消費'
+      recent_empty_message: '近五日沒有消費'
+      consumption_analysis: '消費分析'
+      this_month_consumption: '本月目前消費'
+      this_month_empty_message: '本月尚未有消費'
+      new_button: '新增消費'
+      tag_index_button: '標籤管理'
+      search_future_button: '搜尋功能'
+      search_clear_button: '清除搜尋'
+      delete_message: "是否要刪除[%{date}-%{detail}]"
+    new:
+      title: '新增消費'
+      index_button: '消費一覽'
+    edit:
+      title: '編輯消費'
+      index_button: '消費一覽'
+    create:
+      success_message: '新增成功'
+    update:
+      success_message: '更新成功'
