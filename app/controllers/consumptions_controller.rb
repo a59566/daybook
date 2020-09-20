@@ -19,6 +19,11 @@ class ConsumptionsController < ApplicationController
 
     @q = current_user.consumptions.ransack(params[:q])
     @consumptions = @q.result.includes(:tag).order(date: :desc, id: :desc).page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data(@consumptions.generate_csv, file_name: "consumptions-#{Time.zone.now.strftime('%Y%m%d%S')}.csv") }
+    end
   end
 
   def new
@@ -55,6 +60,20 @@ class ConsumptionsController < ApplicationController
   def destroy
     @consumption.destroy
     redirect_to consumptions_path
+  end
+
+  def import
+    import_consumptions = []
+    CSV.foreach(params[:import][:file].path, headers: true) do |row|
+      consumption_attr = row.to_hash.slice(*Consumption.csv_attributes)
+      tag = current_user.tags.find_by_name(consumption_attr["tag_name"])
+      consumption_attr.delete("tag_name")
+      consumption_attr["tag"] = tag
+      import_consumptions << current_user.consumptions.new(consumption_attr)
+    end
+
+    current_user.consumptions.import!(import_consumptions)
+    redirect_to consumptions_url, notice: t('.success_message')
   end
 
   private

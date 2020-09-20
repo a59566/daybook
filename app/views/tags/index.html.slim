@@ -1,6 +1,14 @@
 h1 =t('.title')
 
-= link_to t('.new_button'), new_tag_path, class: 'btn btn-primary'
+.row.mb-3
+  .col-6.d-flex
+    = link_to t('.new_button'), new_tag_path, class: 'btn btn-primary mr-3'
+    .dropdown.ml-auto
+      button.btn.btn-outline-success.dropdown-toggle type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+        = "#{t('import')}/#{t('export')}"
+      .dropdown-menu aria-labelledby='dropdownMenuButton'
+        = button_tag t('import'), class: 'dropdown-item', data: {toggle: 'modal', target: '#importFormModal'}
+        = link_to t('export'), tags_path(format: :csv), class: 'dropdown-item'
 
 .mb-2
 .row
@@ -21,3 +29,5 @@ h1 =t('.title')
               = link_to tag, method: :delete, remote: true, class: 'delete',
                       data: {confirm: t('.delete_message', name: tag.name)} do
                 = icon 'far', 'trash-alt'
+
+= render partial: 'shared/import_form', locals: { form_target: import_tags_path }

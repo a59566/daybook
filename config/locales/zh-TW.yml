@@ -30,6 +30,8 @@ zh-TW:
       success_message: "[%{name}]標籤新增成功"
     update:
       success_message: "[%{name}]標籤更新成功"
+    import:
+      success_message: '匯入成功'
   consumptions:
     index:
       recent_consumption: '近五日消費'
@@ -52,3 +54,9 @@ zh-TW:
       success_message: '新增成功'
     update:
       success_message: '更新成功'
+    import:
+      success_message: '匯入成功'
+  import: '匯入'
+  export: '匯出'
+  close: '關閉'
+  browse: '瀏覽'

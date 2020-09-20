@@ -21,13 +21,19 @@
     .mb-0.border-top
 
 .row.mb-3
-  .col
+  .col.d-flex
     = link_to t('.new_button'), new_consumption_path, class: 'btn btn-primary'
     = link_to t('.tag_index_button'), tags_path, class: 'btn btn-info ml-3'
     = link_to t('.search_future_button'), '#searchform', role: :button,
         data: {toggle: :collapse},
         aria: {controls: :'searchform', expanded: false},
         class: 'btn btn-secondary ml-3'
+    .dropdown.ml-auto
+      button.btn.btn-outline-success.dropdown-toggle type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+        = "#{t('import')}/#{t('export')}"
+      .dropdown-menu aria-labelledby='dropdownMenuButton'
+        = button_tag t('import'), class: 'dropdown-item', data: {toggle: 'modal', target: '#importFormModal'}
+        = link_to t('export'), consumptions_path(format: :csv), class: 'dropdown-item'
 
 .row.mb-3.collapse id='searchform'
   .col
@@ -77,3 +83,5 @@
   .col.mb-3.d-flex.justify-content-end= page_entries_info @consumptions
 .row
   .col.d-flex.justify-content-end= paginate @consumptions
+
+= render partial: 'shared/import_form', locals: { form_target: import_consumptions_path }
