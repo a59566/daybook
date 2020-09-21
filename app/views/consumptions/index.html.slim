@@ -33,7 +33,7 @@
         = "#{t('import')}/#{t('export')}"
       .dropdown-menu aria-labelledby='dropdownMenuButton'
         = button_tag t('import'), class: 'dropdown-item', data: {toggle: 'modal', target: '#importFormModal'}
-        = link_to t('export'), consumptions_path(format: :csv), class: 'dropdown-item'
+        = link_to t('export'), consumptions_path(:csv, params.to_unsafe_hash.slice("q")), class: 'dropdown-item'
 
 .row.mb-3.collapse id='searchform'
   .col
