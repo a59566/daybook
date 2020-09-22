@@ -3,6 +3,11 @@ class TagsController < ApplicationController
 
   def index
     @tags = current_user.tags.rank(:display_order)
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data(@tags.generate_csv, file_name: "tags-#{Time.zone.now.strftime('%Y%m%d%S')}.csv") }
+    end
   end
 
   def sort
@@ -52,6 +57,16 @@ class TagsController < ApplicationController
         format.js { render plain: @tag.errors.messages[:base][0], status: :method_not_allowed }
       end
     end
+  end
+
+  def import
+    import_tags = []
+    CSV.foreach(params[:import][:file].path, headers: true) do |row|
+      import_tags << current_user.tags.new(row.to_hash.slice(*Tag.csv_attributes))
+    end
+
+    current_user.tags.import(import_tags)
+    redirect_to tags_url, notice: t('.success_message')
   end
 
   private

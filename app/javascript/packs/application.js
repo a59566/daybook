@@ -12,6 +12,7 @@ require("chart.js");
 require("bootstrap");
 require("data-confirm-modal");
 require("../src/application.scss");
+import bsCustomFileInput from 'bs-custom-file-input'
 import Sortable from 'sortablejs';
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -31,6 +32,8 @@ dataConfirmModal.setDefaults({
 document.addEventListener('turbolinks:load', function () {
     // guest welcome message
     $('#guest_notice')?.modal('show');
+
+    bsCustomFileInput.init();
 
     // http error handle
     document.body.addEventListener('ajax:error', function (event) {

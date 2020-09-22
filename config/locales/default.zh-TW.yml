@@ -150,6 +150,9 @@ zh-TW:
       create: 新增%{model}
       submit: 儲存%{model}
       update: 更新%{model}
+    label:
+      import:
+        file: '請選擇檔案'
   number:
     currency:
       format:
