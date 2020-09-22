@@ -1,0 +1,18 @@
+#importFormModal.modal.fade aria-hidden="true" aria-labelledby="importFormModalLabel" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5#importFormModalLabel.modal-title = t('import')
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+      .modal-body
+        = form_with id: 'import', scope: :import,url: form_target, method: :post do |form|
+            .custom-file
+                = form.file_field :file, class: 'custom-file-input'
+                = form.label :file, class: 'custom-file-label', data: { browse: t('browse') }
+
+
+      .modal-footer
+        button.btn.btn-secondary data-dismiss="modal" type="button" = t('close')
+        = submit_tag t('import'), form: 'import', class: 'btn btn-primary'
+

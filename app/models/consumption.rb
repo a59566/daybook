@@ -14,4 +14,19 @@ class Consumption < ApplicationRecord
       errors.add(:tag_id, :invalid)
     end
   end
+
+  def self.csv_attributes
+    ['detail', 'amount', 'date', 'created_at', 'updated_at', 'tag_name']
+  end
+
+  def self.generate_csv
+    CSV.generate(headers: true) do |csv|
+      csv << csv_attributes
+      all.includes(:tag).each do |consumption|
+        csv << csv_attributes.map do |attr|
+          attr == 'tag_name' ? consumption.tag.name : consumption.send(attr)
+        end
+      end
+    end
+  end
 end
